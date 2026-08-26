@@ -3,5 +3,9 @@ export function formatName(
   lastName: string,
   middleName?: string | null,
 ): string {
-  return '';
+if (middleName) {
+  return `${lastName}, ${firstName} ${middleName[0]}.`;
+}
+
+return `${lastName}, ${firstName}`;
 }

@@ -1,26 +1,15 @@
-export type TodoItem = {
-  userId: number;
+export type RemoteUser = {
   id: number;
-  title: string;
-  completed: boolean;
+  name: string;
+  email: string;
 };
 
-export async function fetchTodoSafe(
-  todoId: number,
-): Promise<TodoItem | null> {
-  try {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/todos/${todoId}`,
-    );
+export async function fetchUserEmails(): Promise<string[]> {
+  const response = await fetch(
+    "https://jsonplaceholder.typicode.com/users",
+  );
 
-    if (!response.ok) {
-      return null;
-    }
+  const users = (await response.json()) as RemoteUser[];
 
-    const todo = (await response.json()) as TodoItem;
-
-    return todo;
-  } catch {
-    return null;
-  }
+  return users.map((user) => user.email);
 }

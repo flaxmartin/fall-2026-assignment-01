@@ -1,15 +1,27 @@
-export class Stack<T> {
-  public push(item: T): void {}
+export type NetworkConfig = {
+  serverUrl: string;
+  port: number;
+};
 
-  public pop(): T | undefined {
-    return undefined;
-  }
+export type EnvironmentConfig = {
+  environment: "dev" | "prod";
+  timeout: number;
+};
 
-  public peek(): T | undefined {
-    return undefined;
-  }
+export type AppConfig = NetworkConfig & EnvironmentConfig;
 
-  public size(): number {
-    return 0;
-  }
+export function initializeConfig(
+  userOverrides: Partial<AppConfig>,
+): AppConfig {
+  const defaults: AppConfig = {
+    serverUrl: "http://localhost",
+    port: 8080,
+    environment: "dev",
+    timeout: 3000,
+  };
+
+  return {
+    ...defaults,
+    ...userOverrides,
+  };
 }

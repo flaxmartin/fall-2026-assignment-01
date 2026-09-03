@@ -1,5 +1,26 @@
-export type TodoItem = {};
+export type TodoItem = {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+};
 
-export async function fetchTodoSafe(todoId: number): Promise<TodoItem | null> {
-  return null;
+export async function fetchTodoSafe(
+  todoId: number,
+): Promise<TodoItem | null> {
+  try {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/todos/${todoId}`,
+    );
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const todo = (await response.json()) as TodoItem;
+
+    return todo;
+  } catch {
+    return null;
+  }
 }
